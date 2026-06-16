@@ -89,15 +89,17 @@
 
 @layer base {
   * { border-color: var(--color-border); }
-  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "cv11";
+    font-weight: 400;
+    overflow-x: hidden;
   }
   ::selection { background: oklch(0.62 0.22 258 / 0.25); color: var(--ink); }
-  h1, h2, h3, h4 { letter-spacing: -0.025em; font-weight: 600; }
+  h1, h2, h3, h4 { letter-spacing: -0.025em; font-weight: 400; }
 }
 
 @layer utilities {
@@ -150,6 +152,18 @@
     background-size: 56px 56px;
     mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, black 30%, transparent 80%);
   }
+  .grid-bg-hero {
+    background-image:
+      linear-gradient(to right, oklch(0.94 0.006 255 / 0.85) 1px, transparent 1px),
+      linear-gradient(to bottom, oklch(0.94 0.006 255 / 0.85) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 20%, transparent 75%);
+  }
+  .hero-curve {
+    background: oklch(0.97 0.005 255);
+    border-radius: 50% 50% 0 0 / 28px 28px 0 0;
+    transform: scaleX(1.15);
+  }
   .grid-bg-dark {
     background-image:
       linear-gradient(to right, oklch(1 0 0 / 0.05) 1px, transparent 1px),
@@ -172,5 +186,44 @@
     background: linear-gradient(110deg, transparent 30%, oklch(1 0 0 / 0.12) 50%, transparent 70%);
     background-size: 200% 100%;
     animation: shimmer 3s linear infinite;
+  }
+
+  @keyframes process-timeline-fill {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+  @keyframes process-step-activate {
+    to {
+      border-color: oklch(0.22 0.02 265);
+      color: oklch(0.22 0.02 265);
+    }
+  }
+
+  .process-timeline-fill {
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+  .process-timeline-active .process-timeline-fill {
+    animation: process-timeline-fill 5.5s var(--ease-out-soft) forwards;
+  }
+  .process-timeline-active .process-step-marker {
+    animation: process-step-activate 0.6s var(--ease-out-soft) forwards;
+  }
+  .process-timeline-active > div:nth-child(1) .process-step-marker { animation-delay: 0.4s; }
+  .process-timeline-active > div:nth-child(2) .process-step-marker { animation-delay: 1.4s; }
+  .process-timeline-active > div:nth-child(3) .process-step-marker { animation-delay: 2.4s; }
+  .process-timeline-active > div:nth-child(4) .process-step-marker { animation-delay: 3.4s; }
+  .process-timeline-active > div:nth-child(5) .process-step-marker { animation-delay: 4.4s; }
+
+  @keyframes process-timeline-fill-vertical {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+  }
+  .process-timeline-fill-vertical {
+    transform: scaleY(0);
+    transform-origin: top center;
+  }
+  .process-timeline-active .process-timeline-fill-vertical {
+    animation: process-timeline-fill-vertical 5.5s var(--ease-out-soft) forwards;
   }
 }
